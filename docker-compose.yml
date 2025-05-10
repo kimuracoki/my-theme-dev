@@ -1,0 +1,27 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    platform: linux/amd64  # ← これを追加！
+    ports:
+      - "8080:80"
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wpdb
+
+  db:
+    image: mysql:5.7
+    platform: linux/amd64 
+    environment:
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
